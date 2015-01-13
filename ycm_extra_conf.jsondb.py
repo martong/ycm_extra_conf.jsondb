@@ -5,13 +5,14 @@ import re
 import ycm_core
 import json
 import itertools
+import ycm_jsondb_config
 
 flags = []
 
 # Set this to the absolute path to the folder (NOT the file!) containing the
 # compile_commands.json file to use that instead of 'flags'. See here for
 # more details: http://clang.llvm.org/docs/JSONCompilationDatabase.html
-compilation_database_folder = 'build/osx_x64_debug/make'
+compilation_database_folder = 'native-editor/build/osx_x64_debug/make'
 
 if os.path.exists( compilation_database_folder ):
   database = ycm_core.CompilationDatabase( compilation_database_folder )
@@ -196,43 +197,10 @@ def FlagsForFile( filename, **kwargs ):
       compilation_info.compiler_working_dir_ )
 
     try:
-
-      # Xcode 5.1
-      #final_flags.append('-isystem')
-      #final_flags.append('/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/c++/v1')
-      #final_flags.append('-isystem')
-      #final_flags.append('/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include')
-      #final_flags.append('-isystem')
-      #final_flags.append('/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/5.1/include')
-
-      #final_flags.remove( '-stdlib=libc++' )
-      #final_flags.append( '-nostdinc++' )
-
-      # Xcode 6
-      #final_flags.append('-isystem')
-      #final_flags.append('/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1')
-      #final_flags.append('-isystem')
-      #final_flags.append('/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include')
-      #final_flags.append('-isystem')
-      #final_flags.append('/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/6.0/include')
-
-      # libc
-      final_flags.append('-isystem')
-      final_flags.append('/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk/usr/include')
-
-      # llvm+clang from source
-      final_flags.append('-isystem')
-      final_flags.append('/Users/mg/local/clang_src/llvm_installed/bin/../include/c++/v1')
-      final_flags.append('-isystem')
-      final_flags.append('/Users/mg/local/clang_src/llvm_installed/bin/../lib/clang/3.6.0/include')
-
-      final_flags.append('-isystem')
-      final_flags.append('/usr/include')
-      final_flags.append('-isystem')
-      final_flags.append('/usr/local/include')
-
+      final_flags.extend(ycm_jsondb_config.GetAdditionalFlags())
     except ValueError:
       pass
+
   else:
     relative_to = DirectoryOfThisScript()
     final_flags = MakeRelativePathsInFlagsAbsolute( flags, relative_to )
