@@ -8,7 +8,7 @@ This is extremely useful, if you are working with a huge number of compilcated C
 Note, this is not a regular vim plugin. This project provides an alternative ycm_extra_conf file for the famous YCM[https://github.com/Valloric/YouCompleteMe] vim plugin.
 
 Note2, CMAKE can generate conveniently the compilation database. [http://clang.llvm.org/docs/JSONCompilationDatabase.html]
-Of course it is possible to generate it with other build systems as well, since it can be just a plaing text output of the build.
+Of course it is possible to generate it with other build systems as well, since it can be just a plain text output of the build.
 
 ##Setup
 ### Set up the environment
