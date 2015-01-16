@@ -6,7 +6,6 @@ import ycm_core
 import json
 import itertools
 import ycm_jsondb_config
-import ycm_jsondb_core
 
 flags = []
 database = None
