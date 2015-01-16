@@ -3,7 +3,7 @@ VIM's YCM plugin's ycm_extra_conf distribution for json compilation databases.
 
 ##Setup
 ### Set up the environment
-These settings are common to all of you vim projects.
+These settings are common to all of your vim projects.
 ```
 % export PYTHONPATH=$PYTHONPATH:/path/to/this/repo
 ```
