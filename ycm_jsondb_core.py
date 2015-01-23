@@ -104,12 +104,13 @@ def searchForTranslationUnitWhichIncludesPath(compileCommandsPath, path):
   debugLog ("Not Found")
   return None
 
-def findFirstSiblingSrc(dirname):
-  fileMatches = []
+def findFirstSiblingSrc(dirname, findSiblingForThisFile):
+  findSiblingForThisFile = os.path.split( findSiblingForThisFile ) [ 1 ]
   for root, dirnames, filenames in os.walk(dirname):
     for filename in filenames:
       if filename.endswith(tuple(SOURCE_EXTENSIONS)):
-        return os.path.join(root, filename);
+        if str(filename) != str(findSiblingForThisFile):
+          return os.path.join(root, filename)
   return None
 
 def getFirstEntryOfACompilationDB(compileCommandsPath):
@@ -148,7 +149,7 @@ def GetCompilationInfoForFile( filename ):
     if candidateSrcFile != None:
       debugLog ("Matching src file, based on searchForTranslationUnitWhichIncludesPath: " + candidateSrcFile)
     else:
-      candidateSrcFile = findFirstSiblingSrc(dirname)
+      candidateSrcFile = findFirstSiblingSrc(dirname, filename)
       if candidateSrcFile != None:
         debugLog ("Matching src file, based on findFirstSiblingSrc: " + candidateSrcFile)
       else:
@@ -166,7 +167,7 @@ def GetCompilationInfoForFile( filename ):
   candidateSrcFile = filename
   # TODO this is a bit redundant with the header part
   if not result.compiler_flags_:
-    candidateSrcFile = findFirstSiblingSrc(dirname)
+    candidateSrcFile = findFirstSiblingSrc(dirname, filename)
     if candidateSrcFile != None:
       debugLog ("Matching src file, based on findFirstSiblingSrc: " + candidateSrcFile)
     else:
