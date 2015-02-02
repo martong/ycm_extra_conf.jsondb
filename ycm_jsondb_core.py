@@ -110,7 +110,9 @@ def findFirstSiblingSrc(dirname, findSiblingForThisFile):
     for filename in filenames:
       if filename.endswith(tuple(SOURCE_EXTENSIONS)):
         if str(filename) != str(findSiblingForThisFile):
-          return os.path.join(root, filename)
+          compilation_info = database.GetCompilationInfoForFile(str(os.path.join(root, filename)))
+          if compilation_info.compiler_flags_:
+            return os.path.join(root, filename)
   return None
 
 def getFirstEntryOfACompilationDB(compileCommandsPath):
