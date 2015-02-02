@@ -130,6 +130,8 @@ def GetCompilationInfoForFile( filename ):
   # for header files. So we do our best by asking the db for flags for a
   # corresponding source file, if any. If one exists, the flags for that file
   # should be good enough.
+  compilation_database_file = compilation_database_folder + "/" + "compile_commands.json"
+
   if IsHeaderFile( filename ):
     basename = os.path.splitext( filename )[ 0 ]
     for extension in SOURCE_EXTENSIONS:
@@ -144,7 +146,6 @@ def GetCompilationInfoForFile( filename ):
     # If still not found a candidate translation unit,
     # then try to browse the json db to find one,
     # which uses the directory of our header as an include path (-I, -isystem).
-    compilation_database_file = compilation_database_folder + "/" + "compile_commands.json"
     candidateSrcFile = searchForTranslationUnitWhichIncludesPath(compilation_database_file, dirname)
     if candidateSrcFile != None:
       debugLog ("Matching src file, based on searchForTranslationUnitWhichIncludesPath: " + candidateSrcFile)
