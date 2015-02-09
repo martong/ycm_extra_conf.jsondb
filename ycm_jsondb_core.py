@@ -75,13 +75,6 @@ def debugLog(msg):
 def searchForTranslationUnitWhichIncludesPath(compileCommandsPath, path):
   path = removeClosingSlash(path)
   path = os.path.normpath(path)
-  m = re.match( r'(.*/include)', path)
-  if m:
-    path = m.group(1)
-    debugLog ("path: " + path)
-  else:
-    debugLog ("Path regex does not match")
-    return None
   jsonData = open(compileCommandsPath)
   data = json.load(jsonData)
   for translationUnit in data:
