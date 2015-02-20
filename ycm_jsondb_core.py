@@ -72,27 +72,46 @@ def debugLog(msg):
   print msg
   sys.stdout.flush()
 
+def root_path():
+  return os.path.abspath(os.sep)
+
 def searchForTranslationUnitWhichIncludesPath(compileCommandsPath, path):
+  #path = os.path.normpath(path)
+  path = os.path.abspath(path)
   path = removeClosingSlash(path)
-  path = os.path.normpath(path)
+  debugLog("IncludesPath path: " + str(path))
   jsonData = open(compileCommandsPath)
   data = json.load(jsonData)
   for translationUnit in data:
+    buildDir = translationUnit["directory"]
     switches = translationUnit["command"].split()
     for currentSwitch, nextSwitch in pairwise(switches):
       matchObj = re.match( r'(-I|-isystem)(.*)', currentSwitch)
       includeDir = ""
+      isIncFlag = False
       if currentSwitch == "-I" or currentSwitch == "-isystem":
         includeDir = nextSwitch
+        isIncFlag = True
       elif matchObj:
         includeDir = matchObj.group(2)
+        isIncFlag = True
+      #includeDir = os.path.normpath(includeDir)
+      includeDir = os.path.join(buildDir, includeDir)
+      includeDir = os.path.abspath(includeDir)
       includeDir = removeClosingSlash(includeDir)
-      includeDir = os.path.normpath(includeDir)
-      if includeDir == path:
-        debugLog ("Found " + translationUnit["file"])
-        # TODO finally
-        jsonData.close()
-        return str(translationUnit["file"])
+      if isIncFlag:
+        debugLog("IncludesPath includeDir: " + str(includeDir))
+
+      # Check all the pare
+      pathCopy = path
+      while pathCopy != root_path():
+        if includeDir == pathCopy:
+          debugLog ("Found " + translationUnit["file"])
+          # TODO finally
+          jsonData.close()
+          return str(translationUnit["file"])
+        pathCopy, tail = os.path.split(pathCopy)
+
   jsonData.close()
   debugLog ("Not Found")
   return None
