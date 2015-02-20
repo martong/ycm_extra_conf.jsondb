@@ -78,7 +78,7 @@ def root_path():
 def searchForTranslationUnitWhichIncludesPath(compileCommandsPath, path):
   path = os.path.abspath(path)
   path = removeClosingSlash(path)
-  debugLog("IncludesPath path: " + str(path))
+  #debugLog("IncludesPath path: " + str(path))
   jsonData = open(compileCommandsPath)
   data = json.load(jsonData)
   for translationUnit in data:
@@ -97,14 +97,14 @@ def searchForTranslationUnitWhichIncludesPath(compileCommandsPath, path):
       includeDir = os.path.join(buildDir, includeDir)
       includeDir = os.path.abspath(includeDir)
       includeDir = removeClosingSlash(includeDir)
-      if isIncFlag:
-        debugLog("IncludesPath includeDir: " + str(includeDir))
+      #if isIncFlag:
+        #debugLog("IncludesPath includeDir: " + str(includeDir))
 
       # Check all the parent dirs in path
       pathCopy = path
       while pathCopy != root_path():
         if includeDir == pathCopy:
-          debugLog ("Found " + translationUnit["file"])
+          #debugLog ("Found " + translationUnit["file"])
           # TODO finally
           jsonData.close()
           return str(translationUnit["file"])
