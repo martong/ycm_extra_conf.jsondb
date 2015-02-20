@@ -76,7 +76,6 @@ def root_path():
   return os.path.abspath(os.sep)
 
 def searchForTranslationUnitWhichIncludesPath(compileCommandsPath, path):
-  #path = os.path.normpath(path)
   path = os.path.abspath(path)
   path = removeClosingSlash(path)
   debugLog("IncludesPath path: " + str(path))
@@ -95,14 +94,13 @@ def searchForTranslationUnitWhichIncludesPath(compileCommandsPath, path):
       elif matchObj:
         includeDir = matchObj.group(2)
         isIncFlag = True
-      #includeDir = os.path.normpath(includeDir)
       includeDir = os.path.join(buildDir, includeDir)
       includeDir = os.path.abspath(includeDir)
       includeDir = removeClosingSlash(includeDir)
       if isIncFlag:
         debugLog("IncludesPath includeDir: " + str(includeDir))
 
-      # Check all the pare
+      # Check all the parent dirs in path
       pathCopy = path
       while pathCopy != root_path():
         if includeDir == pathCopy:
