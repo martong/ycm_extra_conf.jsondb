@@ -191,14 +191,14 @@ def GetCompilationInfoForFile( filename ):
     if (candidateSrcFile == None):
       debugLog("Could not find any matches")
       candidateSrcFile = ""
+  else:
+    debugLog("Matching src file, found in compilation db")
 
   return database.GetCompilationInfoForFile(candidateSrcFile)
 
 
 def FlagsForFile(filename, directory):
   if database:
-    debugLog("database OK")
-    debugLog("directory: " + directory)
     # Bear in mind that compilation_info.compiler_flags_ does NOT return a
     # python list, but a "list-like" StringVec object
     compilation_info = GetCompilationInfoForFile( filename )
