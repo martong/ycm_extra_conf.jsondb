@@ -1,4 +1,3 @@
-import ycm_jsondb_core
 import os
 
 # Set this to the absolute path to the folder (NOT the file!) containing the
@@ -9,6 +8,10 @@ compilation_database_folder = 'native-editor/build/osx_x64_debug/make'
 def DirectoryOfThisScript():
   return os.path.dirname( os.path.abspath( __file__ ) )
 
+import sys
+sys.path.insert(0, DirectoryOfThisScript())
+
+import ycm_jsondb_core
 ycm_jsondb_core.Init(compilation_database_folder)
 
 def FlagsForFile( filename, **kwargs ):
