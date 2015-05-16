@@ -215,6 +215,12 @@ def FlagsForFile(filename, directory):
     except ValueError:
       pass
 
+    try:
+      ignoredFlags = ycm_jsondb_config.GetIgnoredFlags()
+      final_flags = [flag for flag in final_flags if flag not in ignoredFlags]
+    except ValueError:
+      pass
+
   else:
     debugLog("database NOK")
     relative_to = directory
