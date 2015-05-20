@@ -81,6 +81,7 @@ def searchForTranslationUnitWhichIncludesPath(compileCommandsPath, path):
   #debugLog("IncludesPath path: " + str(path))
   jsonData = open(compileCommandsPath)
   data = json.load(jsonData)
+  found = []
   for translationUnit in data:
     buildDir = translationUnit["directory"]
     switches = translationUnit["command"].split()
@@ -94,25 +95,34 @@ def searchForTranslationUnitWhichIncludesPath(compileCommandsPath, path):
       elif matchObj:
         includeDir = matchObj.group(2)
         isIncFlag = True
+
+      if not isIncFlag:
+        continue
+
       includeDir = os.path.join(buildDir, includeDir)
       includeDir = os.path.abspath(includeDir)
       includeDir = removeClosingSlash(includeDir)
-      #if isIncFlag:
-        #debugLog("IncludesPath includeDir: " + str(includeDir))
 
       # Check all the parent dirs in path
       pathCopy = path
+      distance = 0
       while pathCopy != root_path():
         if includeDir == pathCopy:
-          #debugLog ("Found " + translationUnit["file"])
-          # TODO finally
-          jsonData.close()
-          return str(translationUnit["file"])
+          found.append((distance, str(translationUnit["file"])))
+
+        distance += 1
         pathCopy, tail = os.path.split(pathCopy)
 
   jsonData.close()
-  debugLog ("Not Found")
-  return None
+  found.sort()
+
+  if len(found) == 0:
+    debugLog ("Not Found")
+    return None
+  else:
+    result = found[0][1]
+    debugLog("Found best source file: " + result)
+    return result
 
 def findFirstSiblingSrc(dirname, findSiblingForThisFile):
   findSiblingForThisFile = os.path.split( findSiblingForThisFile ) [ 1 ]
