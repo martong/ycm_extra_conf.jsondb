@@ -24,3 +24,9 @@ def GetAdditionalFlags():
 def GetIgnoredFlags():
   flags = ['-Werror']
   return flags
+
+# Return the absolute path to the folder (NOT the file!) containing the
+# compile_commands.json file. See here for more details:
+# http://clang.llvm.org/docs/JSONCompilationDatabase.html
+def GetCompilationDatabaseFolder(path):
+  return os.path.abspath(path + "/compilation_database_dir")
