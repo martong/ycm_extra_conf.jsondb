@@ -39,10 +39,33 @@ the recommended setting if your filesystem supports symlinks.
 ./install.sh -l /path/to/your/project
 ```
 
-Edit the `ycm_jsondb_config.py` file in your project to set up additional
-compilation flags. Note that this file is always copied and not symlinked.
+To customize your project settings with a config file, copy
+`ycm_jsondb_config.py` instead of symlinking, then edit the config file.
 
 ```bash
-vi /path/to/your/project/ycm_jsondb_config.py
+./install.sh -Lyc /path/to/your/project
 ```
+
+To use a centralized config file stored somewhere else, use the `-s` switch to
+get some files from a different directory. Files that exist in the source
+directory are used from there, other files are used from the directory of the
+script (typically this git repo). In the following example,
+`ycm_jsondb_config.py` is used from the config directory, all others from the
+script directory.
+
+```bash
+cp ycm_jsondb_config.py /path/to/config/directory
+./install.sh -l -s /path/to/config/directory /path/to/your/project
+```
+
+By default, the compilation database is searched for in the directory where the
+`.ycm_extra_conf.py` resides (typically the project root directory). It can be
+changed from the config file if per-project config file is used. If a
+centralized config file is used, then it can also be changed from
+`.ycm_extra_conf.py`. In this case, copy that file instead of symlinking.
+
+```bash
+./install.sh -LcC -s /path/to/config/directory /path/to/your/project
+```
+
 
