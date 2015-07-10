@@ -12,11 +12,14 @@ Options:
 
     -l        Symlink all files.
 
-    -L        Symlink selected files:
+    -L flags  Symlink selected files:
                   y = .ycm_extra_conf.py
                   c = ycm_jsondb_core.py
                   C = ycm_jsondb_config.py
 
+    -s dir    The source directory to get files from. If not given or a
+              particular file does not exist in the source directory, the file
+              in the directory of the script is copied.
 _END_
 }
 
@@ -25,10 +28,21 @@ usage_error() {
     exit 2
 }
 
+get_source_file() {
+    local filename="$1"
+
+    if [ -n "$source_dir" -a -e "${source_dir}/${filename}" ]; then
+        echo "${source_dir}/${filename}"
+    else
+        echo "${script_dir}/${filename}"
+    fi
+}
+
 # -------- Main body --------
 
 symlink=
-while getopts "hlL:" Option; do
+source_dir=
+while getopts "hlL:s:" Option; do
     case $Option in
     h)
         print_usage
@@ -39,6 +53,9 @@ while getopts "hlL:" Option; do
         ;;
     L)
         symlink="$OPTARG"
+        ;;
+    s)
+        source_dir="$OPTARG"
         ;;
     *)
         usage_error
@@ -55,8 +72,12 @@ if [ -z "$target_directory" ]; then
 fi
 
 set -e
-script_dir=$(readlink -e "$(dirname "$(which "$0")")")
-target_directory=$(readlink -e "$target_directory")
+script_dir=$(readlink -ev "$(dirname "$(which "$0")")")
+target_directory=$(readlink -ev "$target_directory")
+
+if [ -n "$source_dir" ]; then
+    source_dir=$(readlink -ev "$source_dir")
+fi
 
 ln_command="ln -s"
 cp_command=cp
@@ -79,6 +100,6 @@ else
     config_command="$cp_command"
 fi
 
-$ycm_command "$script_dir/ycm_extra_conf.jsondb.py" "$target_directory/.ycm_extra_conf.py"
-$core_command "$script_dir/ycm_jsondb_core.py" "$target_directory/ycm_jsondb_core.py"
-$config_command "$script_dir/ycm_jsondb_config.py" "$target_directory/ycm_jsondb_config.py"
+$ycm_command "$(get_source_file ycm_extra_conf.jsondb.py)" "$target_directory/.ycm_extra_conf.py"
+$core_command "$(get_source_file ycm_jsondb_core.py)" "$target_directory/ycm_jsondb_core.py"
+$config_command "$(get_source_file ycm_jsondb_config.py)" "$target_directory/ycm_jsondb_config.py"
