@@ -1,32 +1,38 @@
 def GetAdditionalFlags():
-  flags = []
+    flags = []
 
-  # Xcode 5.1
-  #flags.append('-isystem')
-  #flags.append('/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/c++/v1')
-  #flags.append('-isystem')
-  #flags.append('/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include')
-  #flags.append('-isystem')
-  #flags.append('/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/5.1/include')
+    # Xcode 5.1
+    # flags.append('-isystem')
+    # flags.append('/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/c++/v1')
+    # flags.append('-isystem')
+    # flags.append('/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include')
+    # flags.append('-isystem')
+    # flags.append('/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/5.1/include')
 
-  # libc
-  flags.append('-isystem')
-  flags.append('/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk/usr/include')
+    # libc
+    flags.append('-isystem')
+    flags.append(
+        '/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk/usr/include')
 
-  # llvm+clang from source
-  flags.append('-isystem')
-  flags.append('/Users/mg/local/clang_src/llvm_installed/bin/../include/c++/v1')
-  flags.append('-isystem')
-  flags.append('/Users/mg/local/clang_src/llvm_installed/bin/../lib/clang/3.6.0/include')
+    # llvm+clang from source
+    flags.append('-isystem')
+    flags.append(
+        '/Users/mg/local/clang_src/llvm_installed/bin/../include/c++/v1')
+    flags.append('-isystem')
+    flags.append(
+        '/Users/mg/local/clang_src/llvm_installed/bin/../lib/clang/3.6.0/include')
 
-  return flags
+    return flags
+
 
 def GetIgnoredFlags():
-  flags = ['-Werror']
-  return flags
+    flags = ['-Werror']
+    return flags
 
 # Return the absolute path to the folder (NOT the file!) containing the
 # compile_commands.json file. See here for more details:
 # http://clang.llvm.org/docs/JSONCompilationDatabase.html
+
+
 def GetCompilationDatabaseFolder(path):
-  return os.path.abspath(path + "/compilation_database_dir")
+    return os.path.abspath(path + "/compilation_database_dir")

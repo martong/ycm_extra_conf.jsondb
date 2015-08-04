@@ -1,7 +1,8 @@
 def GetAdditionalFlags():
-  flags = []
-  return flags
+    flags = []
+    return flags
+
 
 def GetIgnoredFlags():
-  flags = ['-Werror']
-  return flags
+    flags = ['-Werror']
+    return flags
