@@ -72,11 +72,14 @@ if [ -z "$target_directory" ]; then
 fi
 
 set -e
-script_dir=$(readlink -ev "$(dirname "$(which "$0")")")
-target_directory=$(readlink -ev "$target_directory")
+readlink=greadlink
+# No greadlink, so we are probably on Linux
+hash greadlink 2>/dev/null || { readlink=readlink; }
+script_dir=$($readlink -ev "$(dirname "$(which "$0")")")
+target_directory=$($readlink -ev "$target_directory")
 
 if [ -n "$source_dir" ]; then
-    source_dir=$(readlink -ev "$source_dir")
+    source_dir=$($readlink -ev "$source_dir")
 fi
 
 ln_command="ln -s"
