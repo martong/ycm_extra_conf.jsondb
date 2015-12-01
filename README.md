@@ -2,10 +2,15 @@
 VIM's YCM plugin's ycm_extra_conf distribution for json compilation databases.
 
 The goal of this repository is to provide a ycm python plugin, which automates
-the handling of compilation flags for your projects.  Once you've setup your
+the handling of compilation flags for your projects.  
+* Once you've setup your
 build system in your project to generate the compilation database, then you
 will never have to manually manage and maintain your compiler flags in your
-ycm_extra_conf file.  This is extremely useful, if you are working with a huge
+ycm_extra_conf file.  
+* Usually compile_commands.json does not have entries for headers and newly added files.
+We try to cleverly guess the flags based on the matching cpp file or the nearest siblings.
+
+This is extremely useful, if you are working with a huge
 number of compilcated C/C++ projects and you don't want to or can't maintain
 the compiler flags for each projects in your ycm_extra_conf files.
 
@@ -67,5 +72,10 @@ centralized config file is used, then it can also be changed from
 ```bash
 ./install.sh -LcC -s /path/to/config/directory /path/to/your/project
 ```
+
+## Alternatives
+https://github.com/rdnetto/YCM-Generator<br/>
+Note, this tool will do a full fledged compile, while our tool just needs a compile_commands.json.
+This might matter if you are working with huge projects.
 
 
