@@ -154,6 +154,10 @@ def getFirstEntryOfACompilationDB(compileCommandsPath):
 def GetCompilationInfoForFile(filename):
     debugLog("GetCompilationInfoForFile: filename: " + filename)
 
+    result = database.GetCompilationInfoForFile(filename)
+    if result.compiler_flags_:
+        return result
+
     basename = os.path.split(filename)[1]
     dirname = os.path.dirname(filename)
 
