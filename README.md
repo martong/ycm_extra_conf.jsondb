@@ -7,8 +7,8 @@ the handling of compilation flags for your projects.
 build system in your project to generate the compilation database, then you
 will never have to manually manage and maintain your compiler flags in your
 ycm_extra_conf file.  
-* Usually compile_commands.json does not have entries for headers and newly added files.
-We try to cleverly guess the flags based on the matching cpp file or the nearest siblings.
+* Usually compile_commands.json does not have entries for *headers and newly added files*.
+**We try to cleverly guess the flags based on the matching cpp file or the nearest siblings**.
 
 This is extremely useful, if you are working with a huge
 number of compilcated C/C++ projects and you don't want to or can't maintain
