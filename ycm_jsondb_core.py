@@ -1,3 +1,7 @@
+from __future__ import print_function
+from builtins import next
+from builtins import zip
+from builtins import str
 import os
 import sys
 import fnmatch
@@ -20,6 +24,7 @@ def Init(compilation_database_folder_):
         compilation_database_folder = compilation_database_folder_
         global database
         database = ycm_core.CompilationDatabase(compilation_database_folder_)
+
 
 SOURCE_EXTENSIONS = ['.cpp', '.cxx', '.cc', '.c', '.m', '.mm']
 
@@ -62,7 +67,7 @@ def pairwise(iterable):
     "s -> (s0,s1), (s1,s2), (s2, s3), ..."
     a, b = itertools.tee(iterable)
     next(b, None)
-    return itertools.izip(a, b)
+    return zip(a, b)
 
 
 def removeClosingSlash(path):
@@ -72,7 +77,7 @@ def removeClosingSlash(path):
 
 
 def debugLog(msg):
-    print msg
+    print(msg)
     sys.stdout.flush()
 
 
@@ -83,7 +88,7 @@ def root_path():
 def searchForTranslationUnitWhichIncludesPath(compileCommandsPath, path):
     path = os.path.abspath(path)
     path = removeClosingSlash(path)
-    #debugLog("IncludesPath path: " + str(path))
+    # debugLog("IncludesPath path: " + str(path))
     jsonData = open(compileCommandsPath)
     data = json.load(jsonData)
     found = []
@@ -113,7 +118,8 @@ def searchForTranslationUnitWhichIncludesPath(compileCommandsPath, path):
             distance = 0
             while pathCopy != root_path():
                 if includeDir == pathCopy:
-                    found.append((distance, str(translationUnit["file"])))
+                    found.append((distance, str(os.path.join(
+                        buildDir, translationUnit["file"]))))
 
                 distance += 1
                 pathCopy, tail = os.path.split(pathCopy)
