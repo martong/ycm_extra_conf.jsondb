@@ -118,7 +118,8 @@ def searchForTranslationUnitWhichIncludesPath(compileCommandsPath, path):
             distance = 0
             while pathCopy != root_path():
                 if includeDir == pathCopy:
-                    found.append((distance, str(translationUnit["file"])))
+                    found.append((distance, str(os.path.join(
+                        buildDir, translationUnit["file"]))))
 
                 distance += 1
                 pathCopy, tail = os.path.split(pathCopy)
