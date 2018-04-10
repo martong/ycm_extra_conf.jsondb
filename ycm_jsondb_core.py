@@ -263,8 +263,12 @@ def FlagsForFile(filename, directory):
 
         try:
             ignoredFlags = ycm_jsondb_config.GetIgnoredFlags()
+            if callable(ignoredFlags):
+                isIgnored = ignoredFlags
+            else:
+                isIgnored = lambda flag: flag in ignoredFlags
             final_flags = [
-                flag for flag in final_flags if flag not in ignoredFlags]
+                flag for flag in final_flags if not isIgnored(flag)]
         except ValueError:
             pass
 
