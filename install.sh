@@ -83,7 +83,7 @@ if [ -n "$source_dir" ]; then
 fi
 
 ln_command="ln -s"
-cp_command=cp
+cp_command="cp -u"
 
 if [[ "$symlink" == *y* ]]; then
     ycm_command="$ln_command"
@@ -103,6 +103,15 @@ else
     config_command="$cp_command"
 fi
 
+set +e
+
+error=0
+
 $ycm_command "$(get_source_file ycm_extra_conf.jsondb.py)" "$target_directory/.ycm_extra_conf.py"
+((error+=$?))
 $core_command "$(get_source_file ycm_jsondb_core.py)" "$target_directory/ycm_jsondb_core.py"
+((error+=$?))
 $config_command "$(get_source_file ycm_jsondb_config.py)" "$target_directory/ycm_jsondb_config.py"
+((error+=$?))
+
+exit $error
